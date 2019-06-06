@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -14,7 +15,7 @@ class ClientController extends Controller
     public function index()
     {
         //
-        $txt = ['Index des clients'];
+        $txt = Client::all();
         return response()->json($txt, 200);
     }
 
@@ -45,9 +46,10 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
         //
+        return $client;
     }
 
     /**
@@ -82,5 +84,8 @@ class ClientController extends Controller
     public function destroy($id)
     {
         //
+        $client = Client::findOrFail($id);
+        $client->delete();
+        return response()->json(null,204);
     }
 }
