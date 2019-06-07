@@ -4,6 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -29,7 +33,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,12 +44,30 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'error' => 'Resource item not found.'
+            ], 404);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'error' => 'Resource not found.'
+            ], 404);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->json([
+                'error' => 'Method not allowed.'
+            ], 405);
+        }
+
         return parent::render($request, $exception);
     }
 }
