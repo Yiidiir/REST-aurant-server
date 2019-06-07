@@ -79,9 +79,9 @@ class RestaurantController extends Controller
      * @param \App\Restaurant $restaurant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Restaurant $restaurant)
+    public function destroy($id)
     {
-        $restaurant = Restaurant::findOrFail($restaurant);
+        $restaurant = Restaurant::findOrFail($id);
         $restaurant->delete();
         return response()->json(null, 204);
     }
