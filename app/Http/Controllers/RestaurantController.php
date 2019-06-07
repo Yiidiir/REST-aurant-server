@@ -14,7 +14,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        //
+        $restaurants = Restaurant::all();
+        return response()->json($restaurants, 200);
     }
 
     /**
@@ -30,7 +31,7 @@ class RestaurantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,18 +42,18 @@ class RestaurantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Restaurant  $restaurant
+     * @param \App\Restaurant $restaurant
      * @return \Illuminate\Http\Response
      */
     public function show(Restaurant $restaurant)
     {
-        //
+        return $restaurant;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Restaurant  $restaurant
+     * @param \App\Restaurant $restaurant
      * @return \Illuminate\Http\Response
      */
     public function edit(Restaurant $restaurant)
@@ -63,8 +64,8 @@ class RestaurantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Restaurant  $restaurant
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Restaurant $restaurant
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Restaurant $restaurant)
@@ -75,11 +76,13 @@ class RestaurantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Restaurant  $restaurant
+     * @param \App\Restaurant $restaurant
      * @return \Illuminate\Http\Response
      */
     public function destroy(Restaurant $restaurant)
     {
-        //
+        $restaurant = Client::findOrFail($restaurant);
+        $restaurant->delete();
+        return response()->json(null, 204);
     }
 }
