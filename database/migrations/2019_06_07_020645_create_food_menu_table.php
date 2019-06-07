@@ -15,7 +15,11 @@ class CreateFoodMenuTable extends Migration
     {
         Schema::create('food_menu', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->integer('price');
+            $table->unsignedInteger('restaurant_id');
             $table->timestamps();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
         });
     }
 
