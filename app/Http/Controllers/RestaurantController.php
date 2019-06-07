@@ -81,7 +81,7 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
-        $restaurant = Client::findOrFail($restaurant);
+        $restaurant = Restaurant::findOrFail($restaurant);
         $restaurant->delete();
         return response()->json(null, 204);
     }
