@@ -18,7 +18,7 @@ class CreateReservationsTable extends Migration
             $table->unsignedInteger('client_id');
             $table->unsignedInteger('table_id');
             $table->tinyInteger('status');
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('client_id')->references('id')->on('clients'); // TODO: Add on delete cascade
             $table->foreign('table_id')->references('id')->on('tables');
         });
     }
