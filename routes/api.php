@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::resource('clients','ClientController');
 Route::resource('restaurants','RestaurantController');
+Route::resource('orders','OrderController');
 
 Route::fallback(function(){
     return response()->json(['message' => 'Not Found!'], 404);
