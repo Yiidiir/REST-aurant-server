@@ -13,8 +13,14 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('order', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('restaurant_id')->references('id')->on('restaurants');
+            $table->unsignedInteger('client_id')->references('id')->on('clients');
+            $table->dateTime('order_time');
+            $table->tinyInteger('order_status');
+            $table->integer('menu_id');
+
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('orders');
     }
 }
