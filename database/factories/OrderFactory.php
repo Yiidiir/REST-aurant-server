@@ -1,14 +1,13 @@
 <?php
 
-use App\Client;
+use App\User;
 use App\Restaurant;
 use Faker\Generator as Faker;
 
 $factory->define(App\Order::class, function (Faker $faker) {
-    $clients = Client::all()->pluck('id');
+    $clients = User::where('role', 1)->pluck('id');
     $restaurants = Restaurant::all()->pluck('id');
     return [
-        'id' => $faker->unique()->numberBetween(1, 999),
         'restaurant_id' => $faker->randomElement($restaurants),
         'client_id' => $faker->randomElement($clients),
         'order_time' => $faker->dateTimeThisYear($max = 'now', $timezone = null),

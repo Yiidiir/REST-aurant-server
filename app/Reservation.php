@@ -9,7 +9,7 @@ class Reservation extends Model
     //
     public function client()
     {
-        return $this->hasOne(Client::class);
+        return $this->hasOne(User::class);
     }
     public function table()
     {

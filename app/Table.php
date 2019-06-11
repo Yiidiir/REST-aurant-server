@@ -14,7 +14,7 @@ class Table extends Model
 
     public function clients()
     {
-        return $this->hasMany(Client::class);
+        return $this->hasMany(User::class);
     }
 
     public $timestamps = false;

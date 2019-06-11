@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\User;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class ClientController extends Controller
     public function index()
     {
         //
-        $txt = Client::all();
+        $txt = User::all();
         return response()->json($txt, 200);
     }
 
@@ -46,10 +46,10 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(User $user)
     {
         //
-        return $client;
+        return $user;
     }
 
     /**
@@ -84,8 +84,8 @@ class ClientController extends Controller
     public function destroy($id)
     {
         //
-        $client = Client::findOrFail($id);
-        $client->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         return response()->json(null,204);
     }
 }

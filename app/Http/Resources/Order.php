@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Client;
+use App\User;
 use App\Restaurant;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,7 +29,7 @@ class Order extends JsonResource
             'restaurant_id' => $this->restaurant_id,
             'restaurant_name' => Restaurant::find($this->restaurant_id)->name,
             'client_id' => $this->client_id,
-            'client_fullname' => Client::find($this->client_id)->last_name,
+            'client_fullname' => User::find($this->client_id)->last_name,
             'order_time' => $this->order_time,
             'order_status' => $this->order_status,
             'menu_id' => $this->menu_id,
