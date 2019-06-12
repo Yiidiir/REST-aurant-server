@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password','role'
     ];
 
     /**
@@ -46,5 +46,13 @@ class User extends Authenticatable
     public function tables()
     {
         return $this->hasMany(Table::class);
+    }
+
+    public function generateToken()
+    {
+        $this->api_token = str_random(60);
+        $this->save();
+
+        return $this->api_token;
     }
 }
