@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password','role'
+        'first_name', 'last_name', 'email', 'password', 'role'
     ];
 
     /**
@@ -48,11 +48,34 @@ class User extends Authenticatable
         return $this->hasMany(Table::class);
     }
 
+    public function restaurants()
+    {
+        if ($this->isOwner()) {
+            return $this->hasMany(Restaurant::class);
+        }
+        else return false;
+    }
+
     public function generateToken()
     {
         $this->api_token = str_random(60);
         $this->save();
 
         return $this->api_token;
+    }
+
+    public function isClient()
+    {
+        return $this->role === 1;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 3;
+    }
+
+    public function isOwner()
+    {
+        return $this->role === 2;
     }
 }

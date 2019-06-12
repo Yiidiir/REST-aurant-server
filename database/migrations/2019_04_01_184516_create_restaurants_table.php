@@ -18,6 +18,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->tinyInteger('class');
+            $table->unsignedInteger('owner_id')->references('id')->on('users'); // TODO: Add on delete cascade
             $table->timestamps();
         });
     }
