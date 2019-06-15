@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Restaurant extends JsonResource
@@ -20,6 +21,7 @@ class Restaurant extends JsonResource
             'name' => $this->name,
             'address' => $this->address,
             'class' => $this->class,
+            'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
         ];
     }
 }

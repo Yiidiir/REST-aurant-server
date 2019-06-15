@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Resources\Restaurant as RestaurantResource;
+use Illuminate\Support\Facades\Auth;
 
 
 class RestaurantController extends Controller
@@ -16,6 +17,10 @@ class RestaurantController extends Controller
      */
     public function index()
     {
+        $user = Auth::guard('api')->user();
+        if ($user->isOwner()) {
+            return RestaurantResource::collection(Restaurant::where('owner_id', $user->id)->get());
+        }
         return RestaurantResource::collection(Restaurant::all());
     }
 
