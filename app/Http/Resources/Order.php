@@ -19,7 +19,7 @@ class Order extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -30,9 +30,20 @@ class Order extends JsonResource
             'restaurant_name' => Restaurant::find($this->restaurant_id)->name,
             'client_id' => $this->client_id,
             'client_fullname' => User::find($this->client_id)->last_name,
-            'order_time' => $this->order_time,
-            'order_status' => $this->order_status,
+            'order_time' => $this->order_time->format('l, F Y'),
+            'order_status' => $this->statusConvert($this->order_status),
             'menu_id' => $this->menu_id,
         ];
+    }
+
+    private function statusConvert($status)
+    {
+        if ($status == 1) {
+            return 'Processing';
+        } elseif ($status == 2) {
+            return 'Completed';
+        } else {
+            return 'Cancelled';
+        }
     }
 }
