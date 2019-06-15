@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Order as OrderResource;
 use App\Order;
 use App\Restaurant;
+use Carbon\Carbon;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
 
 class OrderController extends Controller
 {
@@ -39,7 +41,17 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::guard('api')->user();
+        if ($user->isClient()) {
+            return new OrderResource(Order::create([
+                'restaurant_id' => $request->input('restaurant_id'),
+                'client_id' => $user->id,
+                'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
+                'order_status' => '1',
+                'menu_id' => '1',
+            ]));
+        }
+        throw new UnauthorizedException;
     }
 
     /**

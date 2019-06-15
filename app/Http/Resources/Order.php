@@ -29,7 +29,7 @@ class Order extends JsonResource
             'restaurant_id' => $this->restaurant_id,
             'restaurant_name' => Restaurant::find($this->restaurant_id)->name,
             'client_id' => $this->client_id,
-            'client_fullname' => User::find($this->client_id)->last_name,
+            'client_fullname' => User::find($this->client_id)->first_name .' '. User::find($this->client_id)->last_name,
             'order_time' => $this->order_time->format('l, F Y'),
             'order_status' => $this->statusConvert($this->order_status),
             'menu_id' => $this->menu_id,
