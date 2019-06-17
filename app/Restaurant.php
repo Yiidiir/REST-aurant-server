@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Restaurant extends Pivot
 {
     public $table = 'restaurants';
-    protected $fillable = ['id',];
+    protected $fillable = ['id', 'name', 'address'];
     //
+    public function tables(){
+        return $this->hasMany(Table::class, 'id');
+    }
+
+    public function owner(){
+        return $this->belongsTo(User::class);
+    }
 }

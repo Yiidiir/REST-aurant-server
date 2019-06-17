@@ -22,6 +22,7 @@ class Restaurant extends JsonResource
             'address' => $this->address,
             'class' => $this->class,
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
+            'tables' => $this->tables()->get()
         ];
     }
 }
