@@ -10,7 +10,7 @@ class Restaurant extends Pivot
     protected $fillable = ['id', 'name', 'address'];
     //
     public function tables(){
-        return $this->hasMany(Table::class, 'id');
+        return $this->hasMany(Table::class, 'restaurant_id');
     }
 
     public function owner(){

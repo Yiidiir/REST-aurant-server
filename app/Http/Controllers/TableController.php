@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class TableController extends Controller
 {
@@ -63,9 +64,11 @@ class TableController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Table $table)
     {
-        //
+        $table->update($request->all());
+
+        return response()->json($table, 200);
     }
 
     /**
