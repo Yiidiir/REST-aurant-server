@@ -16,4 +16,8 @@ class Restaurant extends Pivot
     public function owner(){
         return $this->belongsTo(User::class);
     }
+
+    public function foods(){
+        return $this->hasMany(Food::class, 'restaurant_id');
+    }
 }
