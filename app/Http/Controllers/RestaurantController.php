@@ -54,7 +54,11 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        return new RestaurantResource($restaurant);
+        $user = Auth::guard('api')->user();
+        if ($user->isOwner()) {
+            return new RestaurantResourceOwner($restaurant);
+        }
+            return new RestaurantResource($restaurant);
     }
 
     /**
