@@ -58,19 +58,9 @@ class RestaurantController extends Controller
         if ($user->isOwner()) {
             return new RestaurantResourceOwner($restaurant);
         }
-            return new RestaurantResource($restaurant);
+        return new RestaurantResource($restaurant);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Restaurant $restaurant
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Restaurant $restaurant)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -81,7 +71,9 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
-        //
+        $restaurant->update($request->all());
+
+        return response()->json($restaurant, 200);
     }
 
     /**
