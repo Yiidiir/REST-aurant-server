@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('client_id')->references('id')->on('users');
             $table->dateTime('order_time');
             $table->tinyInteger('order_status');
-            $table->integer('menu_id');
+            $table->integer('menu_id')->references('id')->on('food_menu')->nullable();
 
             $table->timestamps();
         });

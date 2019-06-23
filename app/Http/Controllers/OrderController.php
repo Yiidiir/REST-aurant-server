@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\FoodMenu;
 use App\Http\Resources\Order as OrderResource;
+use App\Http\Resources\Food as FoodResource;
 use App\Order;
 use App\Restaurant;
 use Carbon\Carbon;
@@ -43,13 +45,24 @@ class OrderController extends Controller
     {
         $user = Auth::guard('api')->user();
         if ($user->isClient()) {
-            return new OrderResource(Order::create([
+            $foodIds = json_decode($request->input('foods'));
+            $order = Order::create([
                 'restaurant_id' => $request->input('restaurant_id'),
                 'client_id' => $user->id,
                 'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
                 'order_status' => '1',
-                'menu_id' => '1',
-            ]));
+                'menu_id' => 0,
+            ]);
+            foreach ($foodIds as $foodId){
+                $menu = FoodMenu::create([
+                    'food_id' => $foodId,
+                    'order_id' => $order->id
+                ]);
+            }
+            $order->update([
+                'menu_id' => $menu->id
+            ]);
+            return new OrderResource($order);
         }
         throw new UnauthorizedException;
     }

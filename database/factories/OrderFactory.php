@@ -12,7 +12,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'client_id' => $faker->randomElement($clients),
         'order_time' => $faker->dateTimeThisYear($max = 'now', $timezone = null),
         'order_status' => $faker->numberBetween(0, 3),
-        'menu_id' => $faker->numberBetween(0, 365),
+        'menu_id' => $faker->numberBetween(1, 50),
         'updated_at' => $faker->dateTimeThisYear($max = 'now', $timezone = null)
     ];
 });

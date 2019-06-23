@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\FoodMenu;
 use App\User;
 use App\Restaurant;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Food as FoodResource;
 
 /**
  * @property mixed menu_id
@@ -33,6 +35,7 @@ class Order extends JsonResource
             'order_time' => $this->order_time->format('l, F Y'),
             'order_status' => $this->statusConvert($this->order_status),
             'menu_id' => $this->menu_id,
+            'foods' => FoodResource::collection($this->menu()->get())
         ];
     }
 

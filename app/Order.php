@@ -12,5 +12,9 @@ class Order extends Pivot
         'order_time' => 'datetime:d/m/yyyy ',
     ];
 
+    public function menu(){
+        return $this->hasOne(FoodMenu::class, 'order_id');
+    }
+
     //
 }
