@@ -45,7 +45,7 @@ class OrderController extends Controller
     {
         $user = Auth::guard('api')->user();
         if ($user->isClient()) {
-            $foodIds = json_decode($request->input('foods'));
+            $foodIds = json_decode($request->input('foods'), true);
             $order = Order::create([
                 'restaurant_id' => $request->input('restaurant_id'),
                 'client_id' => $user->id,
