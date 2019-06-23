@@ -25,7 +25,7 @@ class OrderController extends Controller
     {
         $user = Auth::guard('api')->user();
         if ($user->isClient()) {
-            return OrderResource::collection(Order::where('client_id', $user->id)->orderBy('order_time', 'DESC')->get());
+            return OrderResource::collection(Order::where('client_id', $user->id)->orderBy('id', 'DESC')->get());
         } elseif ($user->isAdmin()) {
             return OrderResource::collection(Order::all()->get());
         } elseif ($user->isOwner()) {
