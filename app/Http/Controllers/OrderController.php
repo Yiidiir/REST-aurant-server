@@ -30,7 +30,7 @@ class OrderController extends Controller
             return OrderResource::collection(Order::all()->get());
         } elseif ($user->isOwner()) {
             $owner_restaurants = Restaurant::where('owner_id', $user->id)->pluck('id');
-            return OrderResource::collection(Order::whereIn('restaurant_id', $owner_restaurants)->get());
+            return OrderResource::collection(Order::whereIn('restaurant_id', $owner_restaurants)->orderBy('id', 'DESC')->get());
         }
         throw new AuthenticationException;
     }
