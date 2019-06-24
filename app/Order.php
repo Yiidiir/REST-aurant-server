@@ -21,5 +21,9 @@ class Order extends Pivot
         return $this->morphTo();
     }
 
+    public function isBooking(){
+        return $this->OrderDb;
+    }
+
     //
 }
