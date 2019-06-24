@@ -20,7 +20,6 @@ class CreateOrdersTable extends Migration
             $table->dateTime('order_time');
             $table->tinyInteger('order_status');
             $table->integer('menu_id')->references('id')->on('food_menu')->nullable();
-            $table->boolean('order_type');
             $table->timestamps();
         });
     }

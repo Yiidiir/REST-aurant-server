@@ -11,9 +11,14 @@ class Order extends Pivot
     protected $casts = [
         'order_time' => 'datetime:d/m/yyyy ',
     ];
+    protected $with = ['orderDb'];
 
     public function menu(){
         return $this->hasOne(FoodMenu::class, 'order_id');
+    }
+
+    public function orderDb(){
+        return $this->morphTo();
     }
 
     //

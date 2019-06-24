@@ -11,6 +11,6 @@ $factory->define(App\FoodMenu::class, function (Faker $faker) {
 
     return [
         'food_id' => $faker->randomElement($foods),
-        'order_id' => $faker->randomElement($orders),
+        'order_id' => $faker->randomElement([$orders]),
     ];
 });

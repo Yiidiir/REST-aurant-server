@@ -6,6 +6,8 @@ use App\FoodMenu;
 use App\Http\Resources\Order as OrderResource;
 use App\Http\Resources\Food as FoodResource;
 use App\Order;
+use App\OrderBooking;
+use App\OrderDelivery;
 use App\Restaurant;
 use Carbon\Carbon;
 use function GuzzleHttp\Promise\all;
@@ -52,6 +54,7 @@ class OrderController extends Controller
                 'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
                 'order_status' => '1',
                 'menu_id' => 0,
+                'order_type' => 1,
             ]);
             foreach ($foodIds as $foodId){
                 $menu = FoodMenu::create([
@@ -62,6 +65,8 @@ class OrderController extends Controller
             $order->update([
                 'menu_id' => $menu->id
             ]);
+            $booking = OrderDelivery::create(['address'=>'Bab El Oued']);
+            $booking->orderDb()->save($order);
             return new OrderResource($order);
         }
         throw new UnauthorizedException;
