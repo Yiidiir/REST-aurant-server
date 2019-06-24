@@ -13,7 +13,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'order_time' => $faker->dateTimeThisYear($max = 'now', $timezone = null),
         'order_status' => $faker->numberBetween(0, 3),
         'menu_id' => $faker->numberBetween(1, 50),
-        'order_type' => $faker->boolean,
+        'orderDb_type' => $faker->boolean,
         'updated_at' => $faker->dateTimeThisYear($max = 'now', $timezone = null)
     ];
 });
