@@ -16,7 +16,6 @@ class CreateOrderBookingsTable extends Migration
         Schema::create('order_bookings', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('table_id');
-            $table->unsignedInteger('restaurant_id');
             $table->integer('people_count');
             $table->timestamps();
         });

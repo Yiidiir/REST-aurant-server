@@ -15,8 +15,8 @@ class AddPolymorphismToOrders extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             //
-            $table->boolean('order_type');
-            $table->unsignedInteger('order_id')->nullable();
+            $table->boolean('orderDb_type');
+            $table->unsignedInteger('orderDb_id')->nullable();
         });
     }
 

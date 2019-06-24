@@ -34,7 +34,7 @@ class Order extends JsonResource
             'client_fullname' => User::find($this->client_id)->first_name . ' ' . User::find($this->client_id)->last_name,
             'order_time' => $this->order_time->format('l, d F Y'),
             'order_status' => $this->statusConvert($this->order_status),
-            'order_type' => $this->orderTypeConvert($this->order_type),
+            'order_type' => $this->orderTypeConvert($this->orderDb_type),
             'menu_id' => $this->menu_id,
             'foods' => FoodResource::collection($this->menu()->get()),
             'price' => $this->calculatePrice($this->menu()->get())

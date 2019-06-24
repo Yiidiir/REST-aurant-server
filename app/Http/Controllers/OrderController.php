@@ -9,6 +9,7 @@ use App\Order;
 use App\OrderBooking;
 use App\OrderDelivery;
 use App\Restaurant;
+use App\Table;
 use Carbon\Carbon;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Auth\AuthenticationException;
@@ -54,9 +55,9 @@ class OrderController extends Controller
                 'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
                 'order_status' => '1',
                 'menu_id' => 0,
-                'order_type' => 1,
+                'order_type' => $request->input('order_type'),
             ]);
-            foreach ($foodIds as $foodId){
+            foreach ($foodIds as $foodId) {
                 $menu = FoodMenu::create([
                     'food_id' => $foodId,
                     'order_id' => $order->id
@@ -65,8 +66,14 @@ class OrderController extends Controller
             $order->update([
                 'menu_id' => $menu->id
             ]);
-            $booking = OrderDelivery::create(['address'=>'Bab El Oued']);
-            $booking->orderDb()->save($order);
+            if ($request->input('order_type') == 1) {
+                $delivery = OrderDelivery::create(['address' => $request->input('delivery_address')]);
+                $delivery->order()->save($order);
+            } else {
+                $table_id = 1;
+                $booking = OrderBooking::create(['table_id' => $table_id, 'restaurant_id' => $request->input('restaurant_id'), 'people_count'=> $request->input('people_count')]);
+                $booking->order()->save($order);
+            }
             return new OrderResource($order);
         }
         throw new UnauthorizedException;

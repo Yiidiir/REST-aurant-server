@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderBooking extends Model
 {
+    protected $fillable = ['table_id'];
     //
     public function order()
     {
