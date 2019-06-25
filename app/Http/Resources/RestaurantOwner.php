@@ -23,7 +23,8 @@ class RestaurantOwner extends JsonResource
             'class' => $this->class,
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
             'tables' => $this->tables()->get(),
-            'foods' => $this->foods()->get()
+            'foods' => $this->foods()->get(),
+            'work_schedule' => json_encode(unserialize($this->work_hours))
         ];
     }
 }

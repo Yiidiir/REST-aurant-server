@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Restaurant extends JsonResource
@@ -23,7 +24,8 @@ class Restaurant extends JsonResource
             'class' => $this->class,
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
             'tables' => $this->tables()->get(),
-            'foods' => $this->foods()->get()
+            'foods' => $this->foods()->get(),
+            'is_open' => $this->isOpenAt(new DateTime('2016-09-26 19:00:00'))
         ];
     }
 }

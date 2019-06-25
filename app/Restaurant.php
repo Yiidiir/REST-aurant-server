@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Spatie\OpeningHours\OpeningHours;
 
 class Restaurant extends Pivot
 {
@@ -23,5 +24,11 @@ class Restaurant extends Pivot
     public function foods()
     {
         return $this->hasMany(Food::class, 'restaurant_id');
+    }
+
+    public function isOpenAt($when)
+    {
+        $openingHours = OpeningHours::create(unserialize($this->work_hours));
+        return $openingHours->isOpenAt($when);
     }
 }
