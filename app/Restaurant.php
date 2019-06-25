@@ -8,7 +8,7 @@ use Spatie\OpeningHours\OpeningHours;
 class Restaurant extends Pivot
 {
     public $table = 'restaurants';
-    protected $fillable = ['id', 'name', 'address', 'class'];
+    protected $fillable = ['id', 'name', 'address', 'class', 'work_hours'];
 
     //
     public function tables()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RestaurantOwner;
 use App\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Resources\Restaurant as RestaurantResource;
@@ -25,15 +26,6 @@ class RestaurantController extends Controller
         return RestaurantResource::collection(Restaurant::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -87,5 +79,13 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::findOrFail($id);
         $restaurant->delete();
         return response()->json(null, 204);
+    }
+
+    public function updateWorkHours(Request $request, $id)
+    {
+        $restaurant = Restaurant::find($id);
+        $restaurant->update([
+            'work_hours' => serialize($request->input('work_hours'))]);
+        return response(new RestaurantOwner($restaurant));
     }
 }

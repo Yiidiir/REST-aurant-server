@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::get('users/logout', 'Auth\LoginController@logout');
     Route::get('users/check_token', 'UserController@checkLogin');
     Route::resource('users', 'UserController');
+    Route::post('restaurants/{id}/opening-hours', 'RestaurantController@updateWorkHours');
     Route::resource('restaurants', 'RestaurantController');
     Route::resource('orders', 'OrderController');
     Route::resource('tables', 'TableController',  ['only' => ['store', 'show', 'update', 'destroy']]);
