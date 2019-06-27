@@ -63,7 +63,7 @@ class Order extends JsonResource
 
     private function orderTypeConvert($type)
     {
-        if ($type == 0) {
+        if ($type == 'App\OrderBooking') {
             return 'Table Booking';
         } else {
             return 'Food Delivery';

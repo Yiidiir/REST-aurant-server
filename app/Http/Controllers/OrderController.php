@@ -55,7 +55,7 @@ class OrderController extends Controller
                 'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
                 'order_status' => '1',
                 'menu_id' => 0,
-                'order_type' => $request->input('order_type'),
+                'orderDb_type' => $request->input('order_type'),
             ]);
             foreach ($foodIds as $foodId) {
                 $menu = FoodMenu::create([
