@@ -25,7 +25,8 @@ class Restaurant extends JsonResource
             'updated_at' => Carbon::parse($this->updated_at)->diffForHumans(),
             'tables' => $this->tables()->get(),
             'foods' => $this->foods()->get(),
-            'is_open' => $this->isOpenAt(new DateTime('2016-09-26 19:00:00'))
+            'is_open' => $this->isOpenAt(new DateTime()),
+//            'ggg' => unserialize($this->work_hours)
         ];
     }
 }
