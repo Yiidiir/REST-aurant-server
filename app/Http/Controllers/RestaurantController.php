@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\RestaurantOwner;
 use App\Restaurant;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Resources\Restaurant as RestaurantResource;
 use App\Http\Resources\RestaurantOwner as RestaurantResourceOwner;
@@ -87,5 +88,14 @@ class RestaurantController extends Controller
         $restaurant->update([
             'work_hours' => serialize($request->input('work_hours'))]);
         return response(new RestaurantOwner($restaurant));
+    }
+
+    public function openStatus(Request $request, $id, $date, $hour)
+    {
+        $restaurant = Restaurant::find($id);
+        $datetimex = $date . ' ' . $hour . ':00';
+        $isOpen = $restaurant->isOpenAt(new DateTime($datetimex));
+        $nextOpen = $restaurant->nextOpenAt(new DateTime($datetimex));
+        return response()->json(['time' => $datetimex, 'open' => $isOpen, 'next' => $nextOpen]);
     }
 }

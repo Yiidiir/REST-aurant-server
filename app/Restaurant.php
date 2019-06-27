@@ -33,4 +33,10 @@ class Restaurant extends Pivot
 //        return json_decode(unserialize($this->work_hours), true);
         return $openingHours->isOpenAt($when);
     }
+
+    public function nextOpenAt($when)
+    {
+        $openingHours = OpeningHours::create(unserialize($this->work_hours), false);
+        return $openingHours->nextOpen($when);
+    }
 }
