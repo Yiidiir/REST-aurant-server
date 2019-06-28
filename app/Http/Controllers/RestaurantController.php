@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\RestaurantOwner;
+use App\Order;
+use App\OrderBooking;
 use App\Restaurant;
+use App\Table;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Http\Resources\Restaurant as RestaurantResource;
@@ -97,5 +101,21 @@ class RestaurantController extends Controller
         $isOpen = $restaurant->isOpenAt(new DateTime($datetimex));
         $nextOpen = $restaurant->nextOpenAt(new DateTime($datetimex));
         return response()->json(['time' => $datetimex, 'open' => $isOpen, 'next' => $nextOpen]);
+    }
+
+    public function getAvailableTables(Request $request, $id, $date, $hour)
+    {
+        $passed_date = Carbon::parse($date . ' ' . $hour);
+        $restaurant = Restaurant::find($id);
+        $orders = Order::where('restaurant_id', $id)->where('orderDb_type', 'App\OrderBooking')->where('order_time', '>=',
+            Carbon::parse($passed_date)->toDateTimeString()
+        )->where('order_time', '<',
+            Carbon::parse($passed_date)->addHours(3)->toDateTimeString()
+        )->pluck('orderDb_id');
+        $taken_tables_ids = OrderBooking::find($orders)->pluck('table_id');
+        $all_tables = Table::where('restaurant_id', $id)->get();
+        $free_tables = Table::where('restaurant_id', $id)->whereNotIn('id', $taken_tables_ids)->where('available', 1)->get();
+//        $tables = $restaurant->tables()->whereNotIn('id', $orders)->get();
+        return response()->json([$free_tables, $all_tables]);
     }
 }

@@ -27,6 +27,11 @@ class Restaurant extends Pivot
         return $this->hasMany(Food::class, 'restaurant_id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'restaurant_id');
+    }
+
     public function isOpenAt($when)
     {
         $openingHours = OpeningHours::create(unserialize($this->work_hours), false);
