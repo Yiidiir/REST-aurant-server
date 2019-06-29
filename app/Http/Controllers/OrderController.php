@@ -70,7 +70,7 @@ class OrderController extends Controller
                 $delivery = OrderDelivery::create(['address' => $request->input('delivery_address')]);
                 $delivery->order()->save($order);
             } else {
-                $table_id = 1;
+                $table_id = $request->input('table_id');
                 $booking = OrderBooking::create(['table_id' => $table_id, 'restaurant_id' => $request->input('restaurant_id'), 'people_count'=> $request->input('people_count')]);
                 $booking->order()->save($order);
             }
