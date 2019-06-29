@@ -116,8 +116,8 @@ class RestaurantController extends Controller
         $all_tables = Table::where('restaurant_id', $id)->get();
         $free_tables = Table::where('restaurant_id', $id)->whereNotIn('id', $taken_tables_ids)->where('available', 1)
             ->where('class', '=', $class)->where('capacity_min', '<=', $peoplecount)
-            ->where('capacity_max', '>=', $peoplecount)->get();
+            ->where('capacity_max', '>=', $peoplecount)->pluck('id');
 //        $tables = $restaurant->tables()->whereNotIn('id', $orders)->get();
-        return response()->json([$free_tables, $all_tables]);
+        return response()->json($free_tables);
     }
 }
