@@ -103,7 +103,7 @@ class RestaurantController extends Controller
         return response()->json(['time' => $datetimex, 'open' => $isOpen, 'next' => $nextOpen]);
     }
 
-    public function getAvailableTables(Request $request, $id, $date, $hour)
+    public function getAvailableTables(Request $request, $id, $class, $peoplecount, $date, $hour)
     {
         $passed_date = Carbon::parse($date . ' ' . $hour);
         $restaurant = Restaurant::find($id);
@@ -111,10 +111,12 @@ class RestaurantController extends Controller
             Carbon::parse($passed_date)->toDateTimeString()
         )->where('order_time', '<',
             Carbon::parse($passed_date)->addHours(3)->toDateTimeString()
-        )->pluck('orderDb_id');
+        )->where('order_status', 1)->pluck('orderDb_id');
         $taken_tables_ids = OrderBooking::find($orders)->pluck('table_id');
         $all_tables = Table::where('restaurant_id', $id)->get();
-        $free_tables = Table::where('restaurant_id', $id)->whereNotIn('id', $taken_tables_ids)->where('available', 1)->get();
+        $free_tables = Table::where('restaurant_id', $id)->whereNotIn('id', $taken_tables_ids)->where('available', 1)
+            ->where('class', '=', $class)->where('capacity_min', '<=', $peoplecount)
+            ->where('capacity_max', '>=', $peoplecount)->get();
 //        $tables = $restaurant->tables()->whereNotIn('id', $orders)->get();
         return response()->json([$free_tables, $all_tables]);
     }
