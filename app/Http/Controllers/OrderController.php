@@ -126,6 +126,10 @@ class OrderController extends Controller
 
     public function changeStatus(Request $request, $id, $new_status)
     {
+        $user = Auth::user();
+        if($user->isClient()){
+            $new_status = 0;
+        }
         $order = Order::find($id);
         if($order->order_status != 2 && $order->order_status !=0) {
             $order->update(['order_status' => $new_status]);

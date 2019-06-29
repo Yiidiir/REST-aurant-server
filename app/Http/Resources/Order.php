@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\FoodMenu;
 use App\User;
 use App\Restaurant;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Food as FoodResource;
 
@@ -37,7 +38,8 @@ class Order extends JsonResource
             'order_type' => $this->orderTypeConvert($this->orderDb_type),
             'menu_id' => $this->menu_id,
             'foods' => FoodResource::collection($this->menu()->get()),
-            'price' => $this->calculatePrice($this->menu()->get())
+            'price' => $this->calculatePrice($this->menu()->get()),
+            'client_cancellable' => $this->isCancellableByClient($this->order_time, $this->order_status),
         ];
     }
 
@@ -68,5 +70,15 @@ class Order extends JsonResource
         } else {
             return 'Food Delivery';
         }
+    }
+
+    private function isCancellableByClient($order_time, $order_status)
+    {
+        if ($order_status != 1) {
+            return false;
+        }
+        $created = new Carbon($order_time);
+        $d = $created->diffInDays(now(), false);
+        return ($d < 0) ? true : false;
     }
 }
