@@ -123,4 +123,13 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function changeStatus(Request $request, $id, $new_status)
+    {
+        $order = Order::find($id);
+        if($order->order_status != 2 && $order->order_status !=0) {
+            $order->update(['order_status' => $new_status]);
+        }
+        return response()->json($order);
+    }
 }
