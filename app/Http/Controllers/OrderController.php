@@ -52,7 +52,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'restaurant_id' => $request->input('restaurant_id'),
                 'client_id' => $user->id,
-                'order_time' => Carbon::createFromTimestampUTC($request->input('order_time')),
+                'order_time' => Carbon::createFromFormat('Y-m-d H:i',$request->input('order_date') . ' ' . $request->input('order_time'), 'Africa/Algiers')->addHours(1)->timestamp,
                 'order_status' => '1',
                 'menu_id' => 0,
                 'orderDb_type' => $request->input('order_type'),
@@ -71,7 +71,7 @@ class OrderController extends Controller
                 $delivery->order()->save($order);
             } else {
                 $table_id = $request->input('table_id');
-                $booking = OrderBooking::create(['table_id' => $table_id, 'restaurant_id' => $request->input('restaurant_id'), 'people_count'=> $request->input('people_count')]);
+                $booking = OrderBooking::create(['table_id' => $table_id, 'restaurant_id' => $request->input('restaurant_id'), 'people_count' => $request->input('people_count')]);
                 $booking->order()->save($order);
             }
             return new OrderResource($order);
