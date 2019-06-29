@@ -26,6 +26,7 @@ class User extends JsonResource
             'email' => $this->resource->email,
             'role' => $this->resource->role,
             'api_token' => $this->resource->api_token,
+            'join_date' => $this->created_at->format('l, d F Y'),
         ];
     }
 }
