@@ -55,7 +55,7 @@ class OrderController extends Controller
                 'restaurant_id' => $request->input('restaurant_id'),
                 'client_id' => $user->id,
                 'order_time' => Carbon::createFromFormat('Y-m-d H:i', $request->input('order_date') . ' ' . $request->input('order_time'), 'Africa/Algiers')->addHours(1)->timestamp,
-                'order_status' => '1',
+                'order_status' => '4',
                 'menu_id' => 0,
                 'orderDb_type' => $request->input('order_type'),
             ]);
@@ -165,8 +165,10 @@ class OrderController extends Controller
             'source' => $token,
             'receipt_email' => Auth::user()->email,
         ]);
-
         $transaction->update(['receipt_url' => $charge->receipt_url]);
+
+        $order = Order::find($transaction->order_id);
+        $order->update(['order_status' => '3']);
         return $transaction;
     }
 }

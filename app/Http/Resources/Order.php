@@ -49,8 +49,10 @@ class Order extends JsonResource
             return 'Processing';
         } elseif ($status == 2) {
             return 'Completed';
-        } else {
+        } elseif ($status == 0) {
             return 'Cancelled';
+        } else {
+            return 'Waiting for payment';
         }
     }
 
