@@ -8,6 +8,7 @@ use App\Http\Resources\Food as FoodResource;
 use App\Order;
 use App\OrderBooking;
 use App\OrderDelivery;
+use App\PTransaction;
 use App\Restaurant;
 use App\Table;
 use Carbon\Carbon;
@@ -135,5 +136,23 @@ class OrderController extends Controller
             $order->update(['order_status' => $new_status]);
         }
         return response()->json($order);
+    }
+
+    public function chargeMoney(Request $request, $id){
+        $transaction = PTransaction::create([
+            'id' => $request->input('t_id'),
+            'payer_name' => $request->input('payer_name'),
+            'payer_ip' => $request->input('payer_ip'),
+            'payment_timestamp' => $request->input('payment_timestamp'),
+            'card_brand' => $request->input('card_brand'),
+            'card_country' => $request->input('card_country'),
+            'card_zip' => $request->input('card_zip'),
+            'card_exp' => $request->input('card_exp'),
+            'card_id' => $request->input('card_id'),
+            'card_last4' => $request->input('card_last4'),
+            'order_id' => $request->input('order_id'),
+        ]);
+
+        return $transaction;
     }
 }
