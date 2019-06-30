@@ -168,7 +168,7 @@ class OrderController extends Controller
         $transaction->update(['receipt_url' => $charge->receipt_url]);
 
         $order = Order::find($transaction->order_id);
-        $order->update(['order_status' => '3']);
+        $order->update(['order_status' => '1']);
         return $transaction;
     }
 }
