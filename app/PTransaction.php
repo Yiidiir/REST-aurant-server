@@ -19,5 +19,10 @@ class PTransaction extends Model
         'card_exp',
         'card_id',
         'card_last4',
+        'receipt_url',
         'order_id'];
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $primaryKey = 'id';
+
 }

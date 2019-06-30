@@ -17,6 +17,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
+use Stripe\Stripe;
 
 class OrderController extends Controller
 {
@@ -53,7 +54,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'restaurant_id' => $request->input('restaurant_id'),
                 'client_id' => $user->id,
-                'order_time' => Carbon::createFromFormat('Y-m-d H:i',$request->input('order_date') . ' ' . $request->input('order_time'), 'Africa/Algiers')->addHours(1)->timestamp,
+                'order_time' => Carbon::createFromFormat('Y-m-d H:i', $request->input('order_date') . ' ' . $request->input('order_time'), 'Africa/Algiers')->addHours(1)->timestamp,
                 'order_status' => '1',
                 'menu_id' => 0,
                 'orderDb_type' => $request->input('order_type'),
@@ -128,17 +129,18 @@ class OrderController extends Controller
     public function changeStatus(Request $request, $id, $new_status)
     {
         $user = Auth::user();
-        if($user->isClient()){
+        if ($user->isClient()) {
             $new_status = 0;
         }
         $order = Order::find($id);
-        if($order->order_status != 2 && $order->order_status !=0) {
+        if ($order->order_status != 2 && $order->order_status != 0) {
             $order->update(['order_status' => $new_status]);
         }
         return response()->json($order);
     }
 
-    public function chargeMoney(Request $request, $id){
+    public function chargeMoney(Request $request, $id)
+    {
         $transaction = PTransaction::create([
             'id' => $request->input('t_id'),
             'payer_name' => $request->input('payer_name'),
@@ -150,9 +152,21 @@ class OrderController extends Controller
             'card_exp' => $request->input('card_exp'),
             'card_id' => $request->input('card_id'),
             'card_last4' => $request->input('card_last4'),
-            'order_id' => $request->input('order_id'),
+            'order_id' => $id,
         ]);
 
+        Stripe::setApiKey('sk_test_VCiSxV23jAQ58f1q8d2EdRnm00CEQLvDMI');
+
+        $token = $transaction->id;
+        $charge = \Stripe\Charge::create([
+            'amount' => 10000,
+            'currency' => 'dzd',
+            'description' => 'Charge for order #' . $transaction->order_id,
+            'source' => $token,
+            'receipt_email' => Auth::user()->email,
+        ]);
+
+        $transaction->update(['receipt_url' => $charge->receipt_url]);
         return $transaction;
     }
 }

@@ -24,6 +24,7 @@ class CreatePTransactionsTable extends Migration
             $table->string('card_exp');
             $table->string('card_id');
             $table->string('card_last4');
+            $table->string('receipt_url')->nullable();
             $table->unsignedInteger('order_id')->references('id')->on('food');;
         });
     }
