@@ -24,5 +24,9 @@ class PTransaction extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     protected $primaryKey = 'id';
+    protected $table = 'p_transactions';
 
+    public function order(){
+        return $this->belongsTo(Order::class, 'id');
+    }
 }

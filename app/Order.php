@@ -30,5 +30,8 @@ class Order extends Pivot
         return $this->belongsTo(Restaurant::class, 'id');
     }
 
+    public function transaction(){
+        return $this->hasOne(PTransaction::class, 'order_id');
+    }
     //
 }

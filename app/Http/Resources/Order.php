@@ -40,6 +40,7 @@ class Order extends JsonResource
             'foods' => FoodResource::collection($this->menu()->get()),
             'price' => $this->calculatePrice($this->menu()->get()),
             'client_cancellable' => $this->isCancellableByClient($this->order_time, $this->order_status),
+            'receipt_url' => $this->transaction->receipt_url
         ];
     }
 
