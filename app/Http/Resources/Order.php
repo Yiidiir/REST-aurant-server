@@ -40,7 +40,7 @@ class Order extends JsonResource
             'foods' => FoodResource::collection($this->menu()->get()),
             'price' => $this->calculatePrice($this->menu()->get()),
             'client_cancellable' => $this->isCancellableByClient($this->order_time, $this->order_status),
-            'receipt_url' => $this->transaction->receipt_url
+            'receipt_url' => $this->receipt($this)
         ];
     }
 
@@ -83,5 +83,13 @@ class Order extends JsonResource
         $created = new Carbon($order_time);
         $d = $created->diffInDays(now(), false);
         return ($d < 0) ? true : false;
+    }
+
+    private function receipt($x)
+    {
+        if ($x->transaction()->exists()) {
+            return $x->transaction->receipt_url;
+        }
+        return false;
     }
 }

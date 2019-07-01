@@ -81,10 +81,12 @@ class UserController extends Controller
             $this->validate($request, [
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
+                'phone_number' => ['required'],
             ]);
             $user->update([
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
+                'last_name' => $request->input('phone_number'),
             ]);
             if (!empty($request->input('password'))) {
                 $this->validate($request, [
