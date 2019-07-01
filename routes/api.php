@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth:api', 'cors']], function () {
     Route::resource('restaurants', 'RestaurantController');
     Route::get('orders/{id}/update-status/{new_status}', 'OrderController@changeStatus');
     Route::post('orders/{id}/charge-card', 'OrderController@chargeMoney');
+    Route::get('orders/{id}/allOrders', 'OrderController@ordersOfRestaurant');
     Route::resource('orders', 'OrderController');
     Route::resource('tables', 'TableController',  ['only' => ['store', 'show', 'update', 'destroy']]);
     Route::resource('foods', 'FoodController',  ['only' => ['store', 'update', 'destroy']]);

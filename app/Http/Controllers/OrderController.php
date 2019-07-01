@@ -178,4 +178,18 @@ class OrderController extends Controller
         $order->update(['order_status' => '1']);
         return $transaction;
     }
+
+    public function ordersOfRestaurant(Request $request, $id)
+    {
+        $user = Auth::guard('api')->user();
+        if ($user->isClient()) {
+            return OrderResource::collection(Order::where('client_id', $user->id)->orderBy('id', 'DESC')->get());
+        } elseif ($user->isAdmin()) {
+            return OrderResource::collection(Order::all()->get());
+        } elseif ($user->isOwner()) {
+            $owner_restaurants = Restaurant::where('owner_id', $user->id)->pluck('id');
+            return OrderResource::collection(Order::whereIn('restaurant_id', $owner_restaurants)->where('restaurant_id', $id)->orderBy('id', 'DESC')->get());
+        }
+        throw new UnauthorizedException;
+    }
 }
