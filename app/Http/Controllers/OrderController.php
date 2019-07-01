@@ -192,4 +192,20 @@ class OrderController extends Controller
         }
         throw new UnauthorizedException;
     }
+
+    public function getOrderDetails(Request $request, $id)
+    {
+        $user = Auth::guard('api')->user();
+        if ($user->isOwner()) {
+            $orderDb = Order::find($id);
+            $orderbooking = null;
+            if ($orderDb->orderDb_type == 'App\OrderBooking') {
+                $orderbooking = OrderBooking::find($orderDb->orderDb_id);
+            } else {
+                $orderbooking = OrderDelivery::find($orderDb->orderDb_id);
+            }
+            return $orderbooking;
+        }
+        throw new UnauthorizedException;
+    }
 }
