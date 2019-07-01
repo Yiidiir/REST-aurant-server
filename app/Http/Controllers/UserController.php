@@ -86,7 +86,7 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
-                'last_name' => $request->input('phone_number'),
+                'phone_number' => $request->input('phone_number'),
             ]);
             if (!empty($request->input('password'))) {
                 $this->validate($request, [
