@@ -155,11 +155,19 @@ class OrderController extends Controller
             'order_id' => $id,
         ]);
 
+        $order = Order::find($transaction->order_id);
+
+        $foods = $order->menu->foods->pluck('id');
+        $price = 0;
+        foreach ($foods as $food) {
+            $price = $price + \App\Food::find($food)->price;
+        }
+
         Stripe::setApiKey('sk_test_VCiSxV23jAQ58f1q8d2EdRnm00CEQLvDMI');
 
         $token = $transaction->id;
         $charge = \Stripe\Charge::create([
-            'amount' => 10000,
+            'amount' => $price * 100,
             'currency' => 'dzd',
             'description' => 'Charge for order #' . $transaction->order_id,
             'source' => $token,
@@ -167,7 +175,6 @@ class OrderController extends Controller
         ]);
         $transaction->update(['receipt_url' => $charge->receipt_url]);
 
-        $order = Order::find($transaction->order_id);
         $order->update(['order_status' => '1']);
         return $transaction;
     }
