@@ -121,4 +121,20 @@ class UserController extends Controller
             return response()->json(new UserResource($user));
         }
     }
+
+    public function changeRole(Request $request, $id)
+    {
+        $user = Auth::guard('api')->user();
+        if ($user->isAdmin()) {
+            $usertoEdit = User::find($id);
+            $role = $usertoEdit->role;
+            if ($role == 3) {
+                $role = 1;
+            } else {
+                $role = $role + 1;
+            }
+            $usertoEdit->update([
+                'role' => $role]);
+        }
+    }
 }

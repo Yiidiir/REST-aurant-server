@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['auth:api', 'cors']], function () {
+    Route::get('users/role/{id}', 'UserController@changeRole');
     Route::get('users/logout', 'Auth\LoginController@logout');
     Route::get('users/check_token', 'UserController@checkLogin');
     Route::resource('users', 'UserController');
