@@ -19,7 +19,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('address');
             $table->tinyInteger('class');
             $table->text('work_hours');
-            $table->unsignedInteger('owner_id')->references('id')->on('users'); // TODO: Add on delete cascade
+            $table->unsignedInteger('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -201,10 +201,11 @@ class OrderController extends Controller
             $orderbooking = null;
             if ($orderDb->orderDb_type == 'App\OrderBooking') {
                 $orderbooking = OrderBooking::find($orderDb->orderDb_id);
+                $orderbooking->table_id = Table::find($orderbooking->table_id)->in_restaurant_number;
             } else {
                 $orderbooking = OrderDelivery::find($orderDb->orderDb_id);
             }
-            return $orderbooking;
+            return response()->json($orderbooking);
         }
         throw new UnauthorizedException;
     }
